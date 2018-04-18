@@ -2955,7 +2955,7 @@ class JIRA(object):
         return False
 
     def add_user(self, username, email, directoryId=1, password=None,
-                 fullname=None, notify=False, active=True, ignore_existing=False):
+                 fullname=None, notify=False, active=True, ignore_existing=False, application_keys=None):
         """Create a new JIRA user.
 
         :param username: the username of the new user
@@ -2972,6 +2972,8 @@ class JIRA(object):
         :type notify: ``bool``
         :param active: Whether or not to make the new user active upon creation
         :type active: ``bool``
+        :param applicationKeys: Keys of products user should have access to
+        :type applicationKeys: ``list``
         """
         if not fullname:
             fullname = username
@@ -2990,6 +2992,8 @@ class JIRA(object):
             x['password'] = password
         if notify:
             x['notification'] = 'True'
+        if application_keys is not None:
+            x['applicationKeys'] = application_keys
 
         payload = json.dumps(x)
         try:
